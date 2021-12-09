@@ -1,4 +1,7 @@
 export interface IUpcomingeventsProps {
   description: string;
-  showTabs:string;
+  tabsField:string;
+  tabsValue:string;
+  linkLabel:string;
+  linkUrl:string;
 }

@@ -14,7 +14,10 @@ import { IUpcomingeventsProps } from './components/IUpcomingeventsProps';
 
 export interface IUpcomingeventsWebPartProps {
   description: string;
-  showTabs:string;
+  tabsField:string;
+  tabsValue:string;
+  linkLabel:string;
+  linkUrl:string
 }
 
 export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomingeventsWebPartProps> {
@@ -24,7 +27,10 @@ export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomi
       Upcomingevents,
       {
         description: this.properties.description,
-        showTabs:this.properties.showTabs
+        tabsField:this.properties.tabsField,
+        tabsValue:this.properties.tabsValue,
+        linkLabel:this.properties.linkLabel,
+        linkUrl:this.properties.linkUrl
       }
     );
 
@@ -61,9 +67,18 @@ export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomi
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel
                 }), 
-                PropertyPaneTextField('showTabs', {
+                PropertyPaneTextField('tabsField', {
+                  label: 'Field to create tabs'
+                }), 
+                PropertyPaneTextField('tabsValue', {
                   label: 'What tabs to show'
-                })
+                }),
+                PropertyPaneTextField('linkLabel', {
+                  label: 'The lable of the link'
+                }),
+                PropertyPaneTextField('linkUrl', {
+                  label: 'The url of the link'
+                }),
               ]
             }
           ]
