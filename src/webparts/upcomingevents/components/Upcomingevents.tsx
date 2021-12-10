@@ -30,7 +30,7 @@ export default class Upcomingevents extends React.Component<IUpcomingeventsProps
     let today = new Date();
     let todayISoStr=today.toISOString();
     console.log('linkUl',this.props.linkUrl);
-    let selectedFields=`Id,Title,EventTime,Location`;
+    let selectedFields=`Id,Title,EventTime,Location,Url`;
    let filterStr=`(EventTime ge  datetime'${todayISoStr}') `;
    let tabs=[];
    if(this.props.tabsField && this.props.tabsValue )
@@ -52,7 +52,7 @@ export default class Upcomingevents extends React.Component<IUpcomingeventsProps
     console.log('testEvents',testEvents);
     eventsItems = eventsItems.sort((a, b) => (a.EventTime > b.EventTime ? 1 : -1));
 
-      const events = eventsItems.map((a) => ({ title: a.Title,eventTime:a.EventTime, location: a.Location,eventType:a.EventType })) as IEvent[];
+      const events = eventsItems.map((a) => ({ title: a.Title,eventTime:a.EventTime, location: a.Location,url:a.Url,eventType:a.EventType })) as IEvent[];
       
       let tabsItems=[{name:'All',active:true,events:events}];
       let tabsss=[...tabsItems,...tabs.map(a=>({name:a,active:false,events:events.filter(b=>b.eventType==a)}))]

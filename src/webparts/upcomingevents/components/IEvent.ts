@@ -3,5 +3,6 @@ export interface IEvent {
     eventTime:Date;
     location:string;
     eventType:string;
+    url:string;
   }
   

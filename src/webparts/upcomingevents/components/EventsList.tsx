@@ -34,7 +34,7 @@ return(<div className={styles.eventList} >
                   <div className={styles.detailHeaderItem}>{formattedTime(new Date(a.eventTime))}</div>
                   <div className={styles.detailHeaderItem}>{a.location}</div>
                 </div>
-                <div className={styles.titleEvent}>{a.title.toUpperCase()}</div>
+                <div className={styles.titleEvent} ><a href={a.url} target='_blank'>{a.title.toUpperCase()}</a></div>
             </div>
         </div>)
         })
