@@ -30,15 +30,16 @@ export default class Upcomingevents extends React.Component<IUpcomingeventsProps
     let today = new Date();
     let todayISoStr=today.toISOString();
     console.log('linkUl',this.props.linkUrl);
-    let selectedFields=`Id,Title,EventTime,Location,Url`;
+    let selectedFields=`Id,Title,EventTime,Location,Url,FieldValuesAsText/EventTime`;
+    let expandFields=`FieldValuesAsText`;
    let filterStr=`(EventTime ge  datetime'${todayISoStr}') `;
    let tabs=[];
    if(this.props.tabsField && this.props.tabsValue )
    {
     selectedFields=this.props.tabsField?selectedFields + `, ${this.props.tabsField}`:selectedFields;
-    console.log('selectedFields',selectedFields);
-    console.log('tabsName',this.state.tabNames);
+   
     let filteredArr=this.props.tabsValue.split(',').filter(a=>a!="All");
+    console.log('tab count',filteredArr.length);
      filterStr=filterStr +this.props.tabsValue.split(',').filter(a=>a!="All").reduce((filterQr,value,i)=>(filterQr+ (i==0? `and (${this.props.tabsField} eq '${value}'` :(i==filteredArr.length-1)?`or ${this.props.tabsField} eq '${value}' ) ` :`or ${this.props.tabsField} eq '${value}' `)),'');
      tabs =this.props.tabsValue.split(',').filter(a=>a!="All");
     }
@@ -47,15 +48,14 @@ export default class Upcomingevents extends React.Component<IUpcomingeventsProps
       filterStr=filterStr + `${this.props.tabsField} ne null and ${this.props.tabsField} ne 'n/a'`
     }
    
-    let eventsItems = await sp.web.lists.getByTitle('UpcomingEvents').items.filter(filterStr).select(selectedFields).orderBy("EventTime", true).get();
-   let testEvents=await sp.web.lists.getByTitle('UpcomingEvents').items.filter(`(EventTime ge  datetime'2021-12-09T06:22:13.533Z') and (EventType eq 'Industry'or EventType eq 'Internal' )`).get();
-    console.log('testEvents',testEvents);
+    let eventsItems = await sp.web.lists.getByTitle('UpcomingEvents').items.filter(filterStr).select(selectedFields).expand("FieldValuesAsText").orderBy("EventTime", true).get();
+ 
     eventsItems = eventsItems.sort((a, b) => (a.EventTime > b.EventTime ? 1 : -1));
-
-      const events = eventsItems.map((a) => ({ title: a.Title,eventTime:a.EventTime, location: a.Location,url:a.Url,eventType:a.EventType })) as IEvent[];
+    console.log('eventsItems',eventsItems);
+      const events = eventsItems.map((a) => ({ title: a.Title,eventTime:a.FieldValuesAsText.EventTime, location: a.Location,url:a.Url,eventType:a.EventType })) as IEvent[];
       
-      let tabsItems=[{name:'All',active:true,events:events}];
-      let tabsss=[...tabsItems,...tabs.map(a=>({name:a,active:false,events:events.filter(b=>b.eventType==a)}))]
+      let tabsItems=[{name:'All',active:true,events:[...events.slice(0,this.props.displayNumber)]}];
+      let tabsss=[...tabsItems,...tabs.map(a=>({name:a,active:false,events:events.filter(b=>b.eventType==a).slice(0,this.props.displayNumber)}))]
       console.log('tabsss',tabsss);
       this.setState({...this.state,tabNames:tabsss});
       console.log('events',events);

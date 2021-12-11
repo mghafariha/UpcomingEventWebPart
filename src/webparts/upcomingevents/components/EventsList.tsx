@@ -19,7 +19,18 @@ const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sa
 const EventsList=(props)=>{
     const formattedDate = (date) => (date.getUTCDate() + " " + monthNames[date.getMonth()] + ', ' + date.getUTCFullYear());
     const formattedTime=(date)=>( date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }))
-   
+    const formatAMPM=(date)=> {
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      return strTime;
+    }
+    
+    console.log(formatAMPM(new Date));
 return(<div className={styles.eventList} >
       { 
         props.items.map(a=> {
@@ -31,7 +42,7 @@ return(<div className={styles.eventList} >
             <div className={styles.detailTile}>
                 <div className={styles.detailHeader}>
                 <div className={styles.detailHeaderItem}> {weekday[new Date(a.eventTime).getDay()]}</div>
-                  <div className={styles.detailHeaderItem}>{formattedTime(new Date(a.eventTime))}</div>
+                  <div className={styles.detailHeaderItem}>{formatAMPM(new Date(a.eventTime))}</div>
                   <div className={styles.detailHeaderItem}>{a.location}</div>
                 </div>
                 <div className={styles.titleEvent} ><a href={a.url} target='_blank'>{a.title.toUpperCase()}</a></div>

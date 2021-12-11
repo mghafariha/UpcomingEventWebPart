@@ -17,7 +17,9 @@ export interface IUpcomingeventsWebPartProps {
   tabsField:string;
   tabsValue:string;
   linkLabel:string;
-  linkUrl:string
+  linkUrl:string;
+  displayNumber:number;
+
 }
 
 export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomingeventsWebPartProps> {
@@ -30,7 +32,8 @@ export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomi
         tabsField:this.properties.tabsField,
         tabsValue:this.properties.tabsValue,
         linkLabel:this.properties.linkLabel,
-        linkUrl:this.properties.linkUrl
+        linkUrl:this.properties.linkUrl,
+        displayNumber:this.properties.displayNumber
       }
     );
 
@@ -78,6 +81,10 @@ export default class UpcomingeventsWebPart extends BaseClientSideWebPart<IUpcomi
                 }),
                 PropertyPaneTextField('linkUrl', {
                   label: 'The url of the link'
+                }),
+                ,
+                PropertyPaneTextField('displayNumber', {
+                  label: 'The number of events shown on each tab'
                 }),
               ]
             }
