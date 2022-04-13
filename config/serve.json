@@ -2,5 +2,5 @@
   "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
   "port": 4321,
   "https": true,
-  "initialPage": "https://techranco.sharepoint.com/sites/Test/_layouts/workbench.aspx"
+  "initialPage": "https://sharepoint.com/sites/mg/_layouts/workbench.aspx"
 }
